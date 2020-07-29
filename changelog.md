@@ -1,7 +1,6 @@
 # Change Log
 
-
-# [Parts 1 & 2] - Refactor existing code
+## [Parts 1 & 2] - Refactor existing code
 - Moonpig.PostOffice.Data
 -- DbContext
 --- Renamed to DespatchDbContext.  This avoids the class having the same name as entity frameworks DbContext.
@@ -43,4 +42,7 @@
 -- Refactored to use specific dates. DateTime.Now was used which could cause some test to fail when on some days of the week.
 -- Added test to throw ProductNotFoundException
 -- Added test to throw SupplierNotFoundException
+-- Renamed Moonpig.PostOffice.Tests to Moonpig.PostOffice.Unit.Tests
+
+- Added test and src folders to solution and disk structure
 
