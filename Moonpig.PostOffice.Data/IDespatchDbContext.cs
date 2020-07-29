@@ -2,7 +2,7 @@
 {
     using System.Linq;
 
-    public interface IDbContext
+    public interface IDespatchDbContext
     {
         IQueryable<Supplier> Suppliers { get; }
 
