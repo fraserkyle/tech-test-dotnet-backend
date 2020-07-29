@@ -1,3 +1,5 @@
+[Change Log](changelog.md)
+
 # Moonpig Engineering recruitment test
 
 Welcome to the Moonpig engineering test. Here at Moonpig we really value
