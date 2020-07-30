@@ -19,6 +19,7 @@ namespace Moonpig.PostOffice.Api
         {
             services.AddMvc();
             services.AddSingleton<IDespatchDbContext, DespatchDbContext>();
+            services.AddSingleton<IDespatchCalculator, DespatchCalculator>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

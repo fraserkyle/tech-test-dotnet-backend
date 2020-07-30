@@ -13,51 +13,52 @@ namespace Moonpig.PostOffice.Api.Controllers
     public class DespatchDateController : Controller
     {
         private readonly IDespatchDbContext _dbContext;
+        private readonly IDespatchCalculator _despatchCalculator;
 
-        public DespatchDateController(IDespatchDbContext dbContext)
+        public DespatchDateController(IDespatchDbContext dbContext, IDespatchCalculator despatchCalculator)
         {
             _dbContext = dbContext;
+            _despatchCalculator = despatchCalculator;
         }
 
 
         [HttpGet]
         public DespatchDate Get(List<int> productIds, DateTime orderDate)
         {
-            var maxLeadTime = orderDate;
+            return _despatchCalculator.Calculate(GetSupplierLeadTimes(productIds.ToArray()), orderDate);
+        }
 
-            foreach (var id in productIds)
+        private IEnumerable<int> GetSupplierLeadTimes(IEnumerable<int> productIds)
+        {
+            var distinctProductIds = productIds.Distinct().ToArray();
+            var exceptions = new List<Exception>();
+            var products = _dbContext.Products.Where(x => distinctProductIds.Contains(x.ProductId)).Distinct().ToArray();
+
+            if (products.Length != distinctProductIds.Length)
             {
-                var supplierId = _dbContext.Products.SingleOrDefault(x => x.ProductId == id)?.SupplierId;
-
-                if (supplierId == null)
-                {
-                    throw new ProductNotFoundException(id);
-                }
-
-                var supplierLeadTime = _dbContext.Suppliers.SingleOrDefault(x => x.SupplierId == supplierId)?.LeadTime;
-
-                if (supplierLeadTime == null)
-                {
-                    throw new SupplierNotFoundException(supplierId.Value);
-                }
-
-                var currentLeadTime = orderDate.AddDays(supplierLeadTime.Value);
-
-                if (currentLeadTime > maxLeadTime)
-                {
-                    maxLeadTime = currentLeadTime;
-                }
+                exceptions.AddRange(distinctProductIds
+                    .Where(productId => products.All(product => product.ProductId != productId))
+                    .Select(productId => new ProductNotFoundException(productId)));
             }
 
-            switch (maxLeadTime.DayOfWeek)
+            var distinctSupplierIds = products.Select(x => x.SupplierId).Distinct().ToArray();
+
+            var suppliers = _dbContext.Suppliers.Where(supplier => distinctSupplierIds.Contains(supplier.SupplierId))
+                .ToArray();
+
+            if (suppliers.Length != distinctSupplierIds.Length)
             {
-                case DayOfWeek.Saturday:
-                    return new DespatchDate { Date = maxLeadTime.AddDays(2) };
-                case DayOfWeek.Sunday:
-                    return new DespatchDate { Date = maxLeadTime.AddDays(1) };
-                default:
-                    return new DespatchDate { Date = maxLeadTime };
+                exceptions.AddRange(distinctSupplierIds
+                    .Where(supplierId => suppliers.All(supplier => supplier.SupplierId != supplierId))
+                    .Select(supplierId => new SupplierNotFoundException(supplierId)));
             }
+
+            if (exceptions.Any())
+            {
+                throw new AggregateException(exceptions);
+            }
+
+            return suppliers.Select(x => x.LeadTime);
         }
     }
 }

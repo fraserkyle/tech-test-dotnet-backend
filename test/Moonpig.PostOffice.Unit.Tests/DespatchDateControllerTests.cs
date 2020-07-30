@@ -27,7 +27,8 @@ namespace Moonpig.PostOffice.Tests
         [Fact]
         public void ShouldThrowProductNotFoundException()
         {
-            _exception.ShouldBeOfType<ProductNotFoundException>();
+            _exception.ShouldBeOfType<AggregateException>();
+            _exception.InnerException.ShouldBeOfType<ProductNotFoundException>();
         }
     }
 
@@ -51,7 +52,8 @@ namespace Moonpig.PostOffice.Tests
         [Fact]
         public void ShouldThrowProductNotFoundException()
         {
-            _exception.ShouldBeOfType<SupplierNotFoundException>();
+            _exception.ShouldBeOfType<AggregateException>();
+            _exception.InnerException.ShouldBeOfType<SupplierNotFoundException>();
         }
     }
 
@@ -115,7 +117,7 @@ namespace Moonpig.PostOffice.Tests
         [Fact]
         public void ShouldAddExtraTwoDays()
         {
-            _result.Date.ShouldBe(new DateTime(2018, 1, 26).Date.AddDays(3));
+            _result.Date.ShouldBe(Fixture.SaturdayOrderDate.Date.AddDays(3));
         }
     }
 
@@ -131,7 +133,7 @@ namespace Moonpig.PostOffice.Tests
         [Fact]
         public void ShouldAddExtraDay()
         {
-            _result.Date.ShouldBe(new DateTime(2018, 1, 25).Date.AddDays(4));
+            _result.Date.ShouldBe(Fixture.SundayOrderDate.Date.AddDays(4));
         }
     }
 

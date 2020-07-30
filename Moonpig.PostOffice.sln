@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonpig.PostOffice.Data", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonpig.PostOffice.Unit.Tests", "test\Moonpig.PostOffice.Unit.Tests\Moonpig.PostOffice.Unit.Tests.csproj", "{4B507B0C-BEBF-489C-8346-501B78C3F832}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonpig.PostOffice.Behaviour.Tests", "test\Moonpig.PostOffice.Behaviour.Tests\Moonpig.PostOffice.Behaviour.Tests.csproj", "{D3A89356-A158-40F6-8C46-3596EDF7D5B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{4B507B0C-BEBF-489C-8346-501B78C3F832}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B507B0C-BEBF-489C-8346-501B78C3F832}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B507B0C-BEBF-489C-8346-501B78C3F832}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3A89356-A158-40F6-8C46-3596EDF7D5B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3A89356-A158-40F6-8C46-3596EDF7D5B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3A89356-A158-40F6-8C46-3596EDF7D5B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3A89356-A158-40F6-8C46-3596EDF7D5B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,6 +57,7 @@ Global
 		{F8220BEB-3549-48B3-A9C8-A83A57EE5859} = {F07D32FC-1233-493F-9F8D-20637D22F251}
 		{BC6C9F71-8E43-4791-83F1-9D3BE45F79BF} = {F07D32FC-1233-493F-9F8D-20637D22F251}
 		{4B507B0C-BEBF-489C-8346-501B78C3F832} = {0FE1B340-2867-4B45-93EC-E0765CE12BE1}
+		{D3A89356-A158-40F6-8C46-3596EDF7D5B1} = {0FE1B340-2867-4B45-93EC-E0765CE12BE1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D5598D67-5212-423F-A662-4955B7DA5501}

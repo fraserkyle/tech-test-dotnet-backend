@@ -1,5 +1,11 @@
 # Change Log
 
+## [Part 3] - Modify the existing code to ensure that any orders that would have been processed during the weekend resume processing on Monday.
+- Added Moonpig.PostOffice.Behavour.Tests project containing use cases stated within test.  You will require the [SpecFlow for Visual Studio 2019](https://marketplace.visualstudio.com/items?itemName=TechTalkSpecFlowTeam.SpecFlowForVisualStudio) visual studio extension to use this project.
+- Implemented DespatchCalculator to enable development of new change with isolated test cases
+- Updated dependency injection to inject DespatchCalculator into DespatchDateController
+- Updated DespatchController to use DespatchCalculator and added further perfromance enhancements
+
 ## [Parts 1 & 2] - Refactor existing code
 - Moonpig.PostOffice.Data
 -- DbContext
@@ -36,7 +42,7 @@
 --- Adding days to order date is performed 2 times if the max lead time condition is met, introduced a variable to hold the current lead time.  Performance issue
 
 - Moonpig.PostOffice.Tests
--- PostOfficetests
+-- PostOfficeTests
 -- Renamed to DespatchDatecontrollerTests
 -- Refactored to use fixture and base class.  Enables tests to be written using when...should naming convention, making it easier to identify the specific cause of failure if/when tests fail
 -- Refactored to use specific dates. DateTime.Now was used which could cause some test to fail when on some days of the week.

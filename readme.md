@@ -1,5 +1,3 @@
-[Change Log](changelog.md)
-
 # Moonpig Engineering recruitment test
 
 Welcome to the Moonpig engineering test. Here at Moonpig we really value
@@ -102,13 +100,35 @@ document.
 
 Q1. What 'code smells' / anti-patterns did you find in the existing 
 	implemention of part 1 & 2?
+	
+- I have detailed all of my findings within this [Change Log](changelog.md).  The main issues here were 
+
+-- Naming conventions - Use of acronyms and name formats not applicable to the type of object (property, field, private variable...)
+-- Public variable which should have been a variable local to a method
+-- Mix of procedures belonging to different application layers within a single code file (e.g. presentation, data access and business logic).  
+-- Class named DbContext would have the same name as EF DbContext
+-- No business exceptions were raised by any of the code.  I have added 2 exceptions to perfrom some basic validation.  I would expand upon this if I had more time.
+-- Unit tests did not have any structure
+-- Dependency injeciton was not being used
+-- Loop getting single records from the database.  This should have been a single call to the database or a maximum of 2 calls if accessing tables individually (as I have because I wanted to perform some validation)
 
 Q2. What best pracices have you used while implementing your solution?
+- I have split my code by layer, allowing business logic to be handled separately to data access and presentation code.  As mentioned previously, I would move the data access code from DespatchDatecontroller if I had more time.
+- I have implemented some basic validation to assure requests
+- Limited database calls
+- I have tested all of my code using a combination of unit and behaviour tests.  Achieving 100% code coverage within the classes that I created and 94% within the controller.  
+- I have followed SOLID principles while developing this change.
+
 
 Q3. What further steps would you take to improve the solution given more time?
+- Move the data access element to another file / project
+- Consider moving the business logic that I have move to another project.  This would enable the code to be reused by other projects, for example when migrating this functioanlity to a new technology.
+- If I had more time then I would investigate the remaining 6% test coverage.
+- I would consider whether other technologies could be used to provider further performance benefits
 
 Q4. What's a technology that you're excited about and where do you see this 
     being applicable? (Your answer does not have to be related to this problem)
+- The ability to develop app services on Azure using gRPC has been high on my list for some time.  I am now aware that gRPC is already supported by App Mesh on AWS, which is of great interest to me.  This could be applicable to Moonpig as the payload being sent is generally much smaller than that sent to REST services because it is serailised to binary.  It also makes use of http2 providing that it is communicating over a secure connection.
 
 ## Request and Response Examples
 
