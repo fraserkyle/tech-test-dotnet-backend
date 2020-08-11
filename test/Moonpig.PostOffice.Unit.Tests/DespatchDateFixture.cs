@@ -18,6 +18,8 @@ namespace Moonpig.PostOffice.Tests
 
         public DateTime SaturdayOrderDate => new DateTime(2018, 1, 20);
 
+        public DateTime SupplierOneBlockedDateStart => new DateTime(2018, 06, 11);
+
         public DateTime SundayOrderDate => new DateTime(2018, 1, 21);
 
         public int UnknownSupplierProductId => 9999;

@@ -7,5 +7,7 @@
         IQueryable<Supplier> Suppliers { get; }
 
         IQueryable<Product> Products { get; }
+
+        IQueryable<BlockedDate> BlockedDates { get; }
     }
 }

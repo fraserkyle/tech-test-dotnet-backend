@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using System.Collections.Generic;
+    using System;
 
     public class DespatchDbContext : IDespatchDbContext
     {
@@ -62,5 +63,43 @@
                 new Product { ProductId = 10, Name = "Personalised Tacky T-Shirt", SupplierId = 6 },
                 new Product { ProductId = 9999, Name = "False Product", SupplierId = 9999 }
             }.AsQueryable();
+
+        public IQueryable<BlockedDate> BlockedDates
+       {
+           get
+           {
+               return new List<BlockedDate>
+                          {
+                              new BlockedDate { SupplierId = 1, Date = new DateTime(2018,03,13) },
+                              new BlockedDate { SupplierId = 1, Date = new DateTime(2018,03,23) },
+                              new BlockedDate { SupplierId = 1, Date = new DateTime(2018,03,30) },
+                              new BlockedDate { SupplierId = 1, Date = new DateTime(2018,04,02) },
+                              new BlockedDate { SupplierId = 1, Date = new DateTime(2018,05,14) },
+                              new BlockedDate { SupplierId = 1, Date = new DateTime(2018,05,15) },
+                              new BlockedDate { SupplierId = 1, Date = new DateTime(2018,05,16) },
+                              new BlockedDate { SupplierId = 1, Date = new DateTime(2018,06,11) },
+                              new BlockedDate { SupplierId = 1, Date = new DateTime(2018,06,12) },
+                              new BlockedDate { SupplierId = 1, Date = new DateTime(2018,06,13) },
+                              new BlockedDate { SupplierId = 1, Date = new DateTime(2018,06,14) },
+                              new BlockedDate { SupplierId = 1, Date = new DateTime(2018,06,15) },
+                              new BlockedDate { SupplierId = 1, Date = new DateTime(2018,06,18) },
+                              new BlockedDate { SupplierId = 1, Date = new DateTime(2018,06,19) },
+                              new BlockedDate { SupplierId = 1, Date = new DateTime(2018,06,20) },
+                              new BlockedDate { SupplierId = 1, Date = new DateTime(2018,06,21) },
+                              new BlockedDate { SupplierId = 2, Date = new DateTime(2018,03,20) },
+                              new BlockedDate { SupplierId = 2, Date = new DateTime(2018,04,16) },
+                              new BlockedDate { SupplierId = 2, Date = new DateTime(2018,04,17) },
+                              new BlockedDate { SupplierId = 2, Date = new DateTime(2018,06,11) },
+                              new BlockedDate { SupplierId = 2, Date = new DateTime(2018,06,12) },
+                              new BlockedDate { SupplierId = 2, Date = new DateTime(2018,06,13) },
+                              new BlockedDate { SupplierId = 2, Date = new DateTime(2018,06,14) },
+                              new BlockedDate { SupplierId = 2, Date = new DateTime(2018,06,15) },
+                              new BlockedDate { SupplierId = 2, Date = new DateTime(2018,06,18) },
+                              new BlockedDate { SupplierId = 2, Date = new DateTime(2018,06,19) },
+                              new BlockedDate { SupplierId = 2, Date = new DateTime(2018,06,20) },
+                              new BlockedDate { SupplierId = 2, Date = new DateTime(2018,06,21) }
+                          }.AsQueryable();
+           }
+       }
     }
 }

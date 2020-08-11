@@ -7,6 +7,78 @@ using Xunit;
 
 namespace Moonpig.PostOffice.Tests
 {
+    public class WhenSupplierBlockedDatesCauseLaterDespatchThanOtherSupplierBlockedDates : DespatchDateControllerTestBase
+    {
+         private DespatchDate _result;
+        private readonly Exception _exception;
+
+        public WhenSupplierBlockedDatesCauseLaterDespatchThanOtherSupplierBlockedDates(DespatchDateFixture fixture) : base(fixture)
+        {
+            _exception = Record.Exception(() =>
+                _result = Fixture.Controller.Get(new List<int>() { 1, 2 }, Fixture.SupplierOneBlockedDateStart));
+        }
+
+        [Fact]
+        public void ShouldNotThrowException()
+        {
+            _exception.ShouldBeNull();
+        }
+
+        [Fact]
+        public void ShouldSkipBlockedDates()
+        {
+            _result.Date.ShouldBe(new DateTime(2018, 6, 25));
+        }
+    }
+
+    public class WhenSupplierBlockedDatesCauseLaterDespatchThanLargeLeadtimeSupplier : DespatchDateControllerTestBase
+    {
+         private DespatchDate _result;
+        private readonly Exception _exception;
+
+        public WhenSupplierBlockedDatesCauseLaterDespatchThanLargeLeadtimeSupplier(DespatchDateFixture fixture) : base(fixture)
+        {
+            _exception = Record.Exception(() =>
+                _result = Fixture.Controller.Get(new List<int>() { 1, 9 }, Fixture.SupplierOneBlockedDateStart));
+        }
+
+        [Fact]
+        public void ShouldNotThrowException()
+        {
+            _exception.ShouldBeNull();
+        }
+
+        [Fact]
+        public void ShouldSkipBlockedDates()
+        {
+            _result.Date.ShouldBe(new DateTime(2018, 6, 22));
+        }
+    }
+
+    public class WhenSupplierHasSingleBlockedDate : DespatchDateControllerTestBase
+    {
+         private DespatchDate _result;
+        private readonly Exception _exception;
+
+        public WhenSupplierHasSingleBlockedDate(DespatchDateFixture fixture) : base(fixture)
+        {
+            _exception = Record.Exception(() =>
+                _result = Fixture.Controller.Get(new List<int>() { 1 }, Fixture.SupplierOneBlockedDateStart));
+        }
+
+        [Fact]
+        public void ShouldNotThrowException()
+        {
+            _exception.ShouldBeNull();
+        }
+
+        [Fact]
+        public void ShouldSkipBlockedDates()
+        {
+            _result.Date.ShouldBe(new DateTime(2018, 6, 22));
+        }
+    }
+
     public class WhenProductIsNotFound : DespatchDateControllerTestBase
     {
         private DespatchDate _result;

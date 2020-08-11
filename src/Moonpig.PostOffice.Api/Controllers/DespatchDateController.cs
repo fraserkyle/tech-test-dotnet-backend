@@ -25,10 +25,18 @@ namespace Moonpig.PostOffice.Api.Controllers
         [HttpGet]
         public DespatchDate Get(List<int> productIds, DateTime orderDate)
         {
-            return _despatchCalculator.Calculate(GetSupplierLeadTimes(productIds.ToArray()), orderDate);
+            var suppliers = GetSuppliers(productIds.ToArray());
+            return _despatchCalculator.Calculate(suppliers, orderDate, GetBlockedDates(suppliers));
         }
 
-        private IEnumerable<int> GetSupplierLeadTimes(IEnumerable<int> productIds)
+        private IEnumerable<BlockedDate> GetBlockedDates(IEnumerable<Supplier> suppliers)
+        {
+            var supplierIds = suppliers.Select(x => x.SupplierId).ToArray();
+
+            return _dbContext.BlockedDates.Where(x => supplierIds.Contains(x.SupplierId));
+        }
+
+        private IEnumerable<Supplier> GetSuppliers(IEnumerable<int> productIds)
         {
             var distinctProductIds = productIds.Distinct().ToArray();
             var exceptions = new List<Exception>();
@@ -58,7 +66,7 @@ namespace Moonpig.PostOffice.Api.Controllers
                 throw new AggregateException(exceptions);
             }
 
-            return suppliers.Select(x => x.LeadTime);
+            return suppliers;
         }
     }
 }

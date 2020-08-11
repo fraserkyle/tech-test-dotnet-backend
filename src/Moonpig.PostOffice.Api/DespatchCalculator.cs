@@ -2,20 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using Moonpig.PostOffice.Api.Model;
+using Moonpig.PostOffice.Data;
 
 namespace Moonpig.PostOffice.Api
 {
     public class DespatchCalculator : IDespatchCalculator
     {
-        public DespatchDate Calculate(IEnumerable<int> supplierLeadTimes, DateTime orderDate)
+        public DespatchDate Calculate(IEnumerable<Supplier> suppliers, DateTime orderDate, IEnumerable<BlockedDate> blockedDates)
         {
-            var maxLeadTime = supplierLeadTimes.Max();
-
             orderDate = GetNextPostOfficeWorkingDate(orderDate);
 
             return new DespatchDate()
             {
-                Date = AddLeadTimeSkippingWeekends(orderDate, maxLeadTime)
+                Date = suppliers.Max(x => AddLeadTimeSkippingWeekends(x, orderDate, blockedDates.Where(y => y.SupplierId == x.SupplierId).Select(y => y.Date).ToArray()))
             };
         }
 
@@ -33,15 +32,17 @@ namespace Moonpig.PostOffice.Api
             return orderDate;
         }
 
-        private DateTime AddLeadTimeSkippingWeekends(DateTime orderDate, int leadTime)
+        private static DateTime AddLeadTimeSkippingWeekends(Supplier supplier, DateTime orderDate, DateTime[] blockedDates)
         {
             var result = orderDate;
+
+            var leadTime = supplier.LeadTime;
 
             while (leadTime > 0)
             {
                 result = result.AddDays(1);
 
-                if (result.DayOfWeek == DayOfWeek.Saturday || result.DayOfWeek == DayOfWeek.Sunday)
+                if (result.DayOfWeek == DayOfWeek.Saturday || result.DayOfWeek == DayOfWeek.Sunday || blockedDates.Contains(result))
                 {
                     continue;
                 }
